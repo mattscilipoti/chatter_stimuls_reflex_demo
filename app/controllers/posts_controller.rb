@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  include CableReady::Broadcaster
 
   # GET /posts
   # GET /posts.json
@@ -11,7 +11,13 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.create({username: 'tester'}.merge(post_params))
+    post = Post.create({ username: 'tester' }.merge(post_params))
+    cable_ready['timeline'].insert_adjacent_html(
+      selector: "#timeline",
+      position: 'afterbegin',
+      html: render_to_string(partial: 'post', locals: { post: post })
+    )
+    cable_ready.broadcast
     redirect_to posts_path
   end
 
