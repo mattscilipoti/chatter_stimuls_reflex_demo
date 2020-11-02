@@ -1,24 +1,7 @@
-# README
+# Demo of StimulusReflex
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+I'm just learning about https://docs.stimulusreflex.com/
 
-Things you may want to cover:
+This code is following this video step-by-step: https://www.youtube.com/watch?v=F5hA79vKE_E
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+> Note: The Last step (broadcast the Likes/Reposts) was NOT necessary.
