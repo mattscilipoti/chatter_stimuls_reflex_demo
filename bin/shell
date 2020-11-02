@@ -1,0 +1,1 @@
+docker run --volume ~/projects/chatter_demo:/app --interactive --tty chatter:latest sh
