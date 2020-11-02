@@ -5,12 +5,33 @@ require 'fileutils'
 APP_ROOT = File.expand_path('..', __dir__)
 
 def system!(*args)
+  puts "Running: #{args}"
   system(*args) || abort("\n== Command #{args} failed ==")
 end
 
 def docker_rails_setup
-  system!('docker build . --tag chatter') unless ENV['SKIP_BUILD']
-  system!('docker run --volume ~/projects/chatter_demo:/app -p 3000:3000 -it chatter:latest')
+  tag_name = 'chatter'
+  host_app_dir = File.expand_path('.')
+  container_app_dir = '/app'
+
+  system!('docker', 'build', '.', '--tag', tag_name) unless ENV['SKIP_BUILD']
+
+  docker_cmds = ['docker']
+  docker_cmds << 'run'
+  # Allow developer to interact with running conmtainer (Keep STDIN open even if not attached)
+  docker_cmds << '--interactive'
+  # port 3000 in container is available as port 3000 in host
+  docker_cmds << '--publish'
+  docker_cmds << '3000:3000'
+   # Allocate a pseudo-TTY (enable typing in terminal)
+  docker_cmds << '--tty'
+  # share host working dir in container
+  docker_cmds << '--volume'
+  docker_cmds << "#{host_app_dir}:#{container_app_dir}"
+  # Use "latest" of the image built in above 'docker build' command
+  docker_cmds << "#{tag_name}:latest"
+
+  system!(*docker_cmds)
 end
 
 def standard_rails_setup
