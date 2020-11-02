@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2020_11_02_005517) do
   create_table "posts", force: :cascade do |t|
     t.string "username", null: false
     t.string "body", null: false
-    t.integer "likes_count", null: false
+    t.integer "likes_count", default: 0, null: false
     t.integer "reposts_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
