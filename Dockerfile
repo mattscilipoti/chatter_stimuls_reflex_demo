@@ -23,7 +23,8 @@ RUN apk add --no-cache --virtual rails-run-dependencies \
   redis \
   sqlite \
   sqlite-dev \
-  tzdata
+  tzdata \
+  yarn
 
 # use "virtual" group for rails testing dependencies
 # - tree for dir listing
@@ -41,11 +42,11 @@ RUN gem install rake
 COPY Gemfile* /tmp/
 WORKDIR /tmp
 # This sets initial cached install,
-#   We `bundle install` again, via docker-compose.yml ($app/bin/start_ci),
-#   to ensure gems are updated outside of cache
-# RUN bundle install --jobs 4 --retry 3 --without=development
 RUN bundle install --jobs 4 --retry 3
 
+# install yarn dependencies
+COPY package.json yarn.lock ./
+RUN yarn install --check-files
 
 # Remove build dependencies which are no longer needed
 # RUN apk del build-dependencies
