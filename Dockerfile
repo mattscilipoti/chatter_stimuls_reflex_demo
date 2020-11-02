@@ -74,4 +74,5 @@ ADD . $app
 
 EXPOSE 3000
 # moved command to docker-compose.yml
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+# CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD bin/startup.sh
