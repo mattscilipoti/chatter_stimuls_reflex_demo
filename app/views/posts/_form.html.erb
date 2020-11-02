@@ -1,3 +1,4 @@
+<% post ||= @post %>
 <%= form_with(model: post, local: true) do |form| %>
   <% if post.errors.any? %>
     <div id="error_explanation">
@@ -11,27 +12,11 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :username %>
-    <%= form.text_field :username %>
-  </div>
-
-  <div class="field">
-    <%= form.label :body %>
-    <%= form.text_field :body %>
-  </div>
-
-  <div class="field">
-    <%= form.label :likes_count %>
-    <%= form.number_field :likes_count %>
-  </div>
-
-  <div class="field">
-    <%= form.label :reposts_count %>
-    <%= form.number_field :reposts_count %>
+  <div class="form-group">
+    <%= form.text_area :body, placeholder: "Enter your message", class: "form-control", rows: 3 %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>
