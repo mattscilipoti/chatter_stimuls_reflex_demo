@@ -14,8 +14,10 @@ def docker_rails_setup
   host_app_dir = File.expand_path('.')
   container_app_dir = '/app'
 
+  # build the image
   system!('docker', 'build', '.', '--tag', tag_name) unless ENV['SKIP_BUILD']
 
+  # run it interactively, with shared volume for app
   docker_cmds = ['docker']
   docker_cmds << 'run'
   # Allow developer to interact with running conmtainer (Keep STDIN open even if not attached)

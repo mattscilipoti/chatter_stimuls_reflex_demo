@@ -1,1 +1,13 @@
-docker run --volume ~/projects/chatter_demo:/app --interactive --tty chatter:latest sh
+host_app_dir="$(pwd -P)"
+container_app_dir="/app"
+host_ssh_dir="$HOME/.ssh"
+container_ssh_dir='/root/.ssh'
+container_tag='chatter'
+
+docker run \
+  --interactive \
+  --tty \
+  --volume $host_app_dir:$container_app_dir \
+  --volume $host_ssh_dir:$container_ssh_dir:ro \
+  $container_tag:latest \
+  sh

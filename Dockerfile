@@ -27,15 +27,16 @@ RUN apk add --no-cache --virtual rails-run-dependencies \
   yarn
 
 # use "virtual" group for rails testing dependencies
+# - openssh: connect to git repo
 # - tree for dir listing
 # - xvfb for headless browser
 ARG env
-RUN if [ "$env" = "development" ]; then \
-  apk add --no-cache --update --virtual rails-test-dependencies \
-  tree \
-  xvfb \
-  ; fi
+RUN apk add --no-cache --update --virtual rails-test-dependencies \
+  openssh
+# tree \
+# xvfb \
 
+# Size Optimization: add rails dependencies separately from code
 RUN gem install bundler
 RUN gem install rake
 
