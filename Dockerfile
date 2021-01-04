@@ -47,7 +47,7 @@ RUN bundle install --jobs 4 --retry 3
 
 # install yarn dependencies
 COPY package.json yarn.lock ./
-RUN yarn install --check-files
+RUN yarn install --pure-lockfile
 
 # Remove build dependencies which are no longer needed
 # RUN apk del build-dependencies
@@ -59,21 +59,10 @@ WORKDIR $app
 
 ADD . $app
 
-# Security: lock down to "nobody" user
-# 201804: remove this security step.  We couldn't upgrade gems during docker run.
-# RUN chown -R nobody:nogroup /app
-# USER nobody
-
 # Optimize gem usage via shared volume
 # see: https://medium.com/@fbzga/how-to-cache-bundle-install-with-docker-7bed453a5800
 # ISSUE: permission denied for bin/start_ci
 #ENV BUNDLE_PATH /gem_volume
 
-# Configure for CI
-# RUN chmod +x $app/bin/start_ci
-# ENV RAILS_ENV ci
-
 EXPOSE 3000
-# moved command to docker-compose.yml
-# CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
 CMD bin/startup.sh
